@@ -1,6 +1,6 @@
 <div class="board">
   @for (empty of fieldCount; track $index) {
-    <app-tictactoe-field [player]="board[$index]()" [fieldIndex]="$index" (onClick)="draw($event)"/>
+    <app-tictactoe-field [player]="board()[$index]" [fieldIndex]="$index" (onClick)="draw($event)"/>
   }
 </div>
 
