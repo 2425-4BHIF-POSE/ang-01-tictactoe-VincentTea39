@@ -16,11 +16,14 @@ export class TictactoeFieldComponent {
   onClick: OutputEmitterRef<number> = output();
 
   protected handleClick() {
-    if (this.player() === Player.one || this.player() === Player.none) {
+    if (this.player() === Player.one) {
       this.playerOutput.set("x");
     }
     else if (this.player() === Player.two) {
       this.playerOutput.set("o");
+    }
+    else {
+      this.playerOutput.set("");
     }
     this.onClick.emit(this.fieldIndex());
   }

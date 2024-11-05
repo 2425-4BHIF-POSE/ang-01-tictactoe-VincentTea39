@@ -14,10 +14,9 @@ import {TictactoeFieldComponent} from './tictactoe-field/tictactoe-field.compone
 export class TictactoeGridComponent {
   protected readonly Player = Player;
   public readonly fieldCount: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  public readonly writeSignal: WritableSignal<string> = signal('');
   public readonly board: WritableSignal<Player[]> = signal(Array(this.fieldCount.length).fill(Player.none))
 
-  public winnerMessage: string = "Oga";
+  public winnerMessage: string = "";
   public currentPlayerMessage = "x";
 
   public winner: Player = Player.none;
@@ -25,7 +24,11 @@ export class TictactoeGridComponent {
   public CurrentPlayer: Player = Player.one;
 
   public draw(index: number) {
-    this.board()[index] = this.CurrentPlayer;
+    if (this.board()[index] === Player.none) {
+      this.board()[index] = this.CurrentPlayer;
+    } else {
+      return;
+    }
 
     if (this.checkWinner()) {
       this.winner = this.CurrentPlayer;
@@ -46,7 +49,7 @@ export class TictactoeGridComponent {
   }
 
   public restartGame() {
-    this.board.set(Array(this.fieldCount.length).fill(Player.none))
+    this.board.set(Array(this.fieldCount.length).fill(Player.none));
   }
 
   private checkWinner(): boolean {
