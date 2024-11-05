@@ -10,21 +10,15 @@ import {Player} from '../tictactoe-grid.component';
 })
 
 export class TictactoeFieldComponent {
-  player: InputSignal<Player> = input.required();
-  playerOutput: WritableSignal<string> = signal("");
-  fieldIndex: InputSignal<number> = input.required();
-  onClick: OutputEmitterRef<number> = output();
+  public readonly player: InputSignal<Player> = input.required();
+  public readonly fieldIndex: InputSignal<number> = input.required();
+  protected onClick: OutputEmitterRef<number> = output();
+
+  protected drawSymbol(): string {
+    return this.player() === Player.one ? 'x' : this.player() === Player.two ? 'o' : ''
+  }
 
   protected handleClick() {
-    if (this.player() === Player.one) {
-      this.playerOutput.set("x");
-    }
-    else if (this.player() === Player.two) {
-      this.playerOutput.set("o");
-    }
-    else {
-      this.playerOutput.set("");
-    }
     this.onClick.emit(this.fieldIndex());
   }
 }

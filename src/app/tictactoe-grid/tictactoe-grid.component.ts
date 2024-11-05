@@ -13,17 +13,17 @@ import {TictactoeFieldComponent} from './tictactoe-field/tictactoe-field.compone
 
 export class TictactoeGridComponent {
   protected readonly Player = Player;
-  public readonly fieldCount: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  public readonly board: WritableSignal<Player[]> = signal(Array(this.fieldCount.length).fill(Player.none))
+  protected readonly fieldCount: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  protected readonly board: WritableSignal<Player[]> = signal(Array(this.fieldCount.length).fill(Player.none))
 
-  public winnerMessage: string = "";
-  public currentPlayerMessage = "x";
+  protected winnerMessage: string = "";
+  protected currentPlayerMessage = "x";
 
-  public winner: Player = Player.none;
+  protected winner: Player = Player.none;
 
-  public CurrentPlayer: Player = Player.one;
+  protected CurrentPlayer: Player = Player.one;
 
-  public draw(index: number) {
+  protected draw(index: number) {
     if (this.board()[index] === Player.none) {
       this.board()[index] = this.CurrentPlayer;
     } else {
@@ -38,7 +38,7 @@ export class TictactoeGridComponent {
     this.switchTurns();
   }
 
-  public switchTurns() {
+  protected switchTurns() {
     if (this.CurrentPlayer === Player.one) {
       this.CurrentPlayer = Player.two;
       this.currentPlayerMessage = "o";
@@ -48,11 +48,14 @@ export class TictactoeGridComponent {
     }
   }
 
-  public restartGame() {
+  protected restartGame() {
+    this.CurrentPlayer = Player.one;
+    this.currentPlayerMessage = "x";
+    this.winnerMessage = "";
     this.board.set(Array(this.fieldCount.length).fill(Player.none));
   }
 
-  private checkWinner(): boolean {
+  protected checkWinner(): boolean {
     const size = 3; // size of the Tic-Tac-Toe board (3x3)
 
     // Check rows
@@ -94,6 +97,10 @@ export class TictactoeGridComponent {
       this.board()[2] === this.board()[6]
     ) {
       return true;
+    }
+
+    if (!this.board().includes(this.Player.none)) {
+      this.winnerMessage = "It's a draw!";
     }
 
     return false; // No winner
