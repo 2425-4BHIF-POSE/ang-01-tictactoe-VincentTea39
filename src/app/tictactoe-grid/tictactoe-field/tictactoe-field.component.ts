@@ -1,4 +1,4 @@
-import {Component, input, InputSignal, signal, WritableSignal} from '@angular/core';
+import {Component, input, InputSignal, output, OutputEmitterRef} from '@angular/core';
 import {Player} from '../tictactoe-grid.component';
 
 @Component({
@@ -10,15 +10,18 @@ import {Player} from '../tictactoe-grid.component';
 })
 
 export class TictactoeFieldComponent {
-  player: WritableSignal<String> = signal('');
-  currentPlayer: InputSignal<Player> = input.required();
-  handleClick() {
-    if (this.currentPlayer() === Player.one
-    || this.currentPlayer() === Player.none) {
-      this.player.update(() => 'x');
+  player: InputSignal<Player> = input.required();
+  playerOutput: string = "";
+  fieldIndex: InputSignal<number> = input.required();
+  onClick: OutputEmitterRef<number> = output();
+
+  protected handleClick() {
+    if (this.player() === Player.one || this.player() === Player.none) {
+      this.playerOutput = "x";
     }
-    else {
-      this.player.update(() => 'o');
+    else if (this.player() === Player.two) {
+      this.playerOutput = "o";
     }
+    this.onClick.emit(this.fieldIndex());
   }
 }

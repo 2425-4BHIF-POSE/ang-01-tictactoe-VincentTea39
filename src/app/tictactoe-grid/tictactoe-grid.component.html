@@ -1,13 +1,11 @@
-<div>
-  <app-tictactoe-field [currentPlayer]="Player.none"/>
-  <app-tictactoe-field [currentPlayer]="Player.none"/>
-  <app-tictactoe-field [currentPlayer]="Player.none"/>
+<div class="board">
+  @for (empty of fieldCount; track $index) {
+    <app-tictactoe-field [player]="board[$index]()" [fieldIndex]="$index" (onClick)="draw($event)"/>
+  }
+</div>
 
-  <app-tictactoe-field [currentPlayer]="Player.none"/>
-  <app-tictactoe-field [currentPlayer]="Player.none"/>
-  <app-tictactoe-field [currentPlayer]="Player.none"/>
-
-  <app-tictactoe-field [currentPlayer]="Player.none"/>
-  <app-tictactoe-field [currentPlayer]="Player.none"/>
-  <app-tictactoe-field [currentPlayer]="Player.none"/>
+<div style="top: 50rem">
+  <p>Current Player: {{currentPlayerMessage}}</p>
+  <p>{{winnerMessage}}</p>
+  <button (click)="restartGame()">Restart</button>
 </div>
